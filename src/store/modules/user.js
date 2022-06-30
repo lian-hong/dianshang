@@ -1,19 +1,27 @@
+// import { reject } from 'core-js/fn/promise'
 import UserApi from '../../api/user'
+import { setItem, getItem } from '../../utils/storage'
 
 export default {
   namespaced: true,
   state: () => ({
-    token: ''
+    token: getItem('token') || ''
   }),
   mutations: {
     setToken(state, token) {
       state.token = token
+      setItem('token', token)
     }
   },
   actions: {
     async login({ commit }, payload) {
-      const response = await UserApi.login(payload)
-      console.log(response)
+      try {
+        const response = await UserApi.login(payload)
+        commit('setToken', response.token)
+        return response
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
@@ -22,9 +30,9 @@ export default {
  *
  * 将token存储到vuex
  * 将token存储到本地
+ * 本地存储方法进行封装
  * 浏览器刷新vuex数据丢失问题
  *
- * 本地存储方法进行封装
  *
  * 全局响应处理
  *

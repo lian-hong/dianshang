@@ -22,7 +22,7 @@ import md5 from 'md5'
 
 import loading from './loading'
 
-import ElMessage from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 // 配置请求的基准URL地址,创建实例对象
 const service = axios.create({
@@ -36,13 +36,11 @@ service.interceptors.request.use(
     // 每次发送请求之前自动将在session中的token提取出来当做响应头header
     // 打开loading加载
     loading.open()
-
     // 调用接口要传的参数
     const { icode, time } = getTestICode()
     config.headers.icode = icode
     config.headers.codeType = time
     // TODO 将token通过请求头发送给后台
-
     return config
   },
   (error) => {
@@ -57,30 +55,31 @@ service.interceptors.response.use(
   (response) => {
     // 关闭loading加载
     loading.close()
-
     const { success, data, message } = response.data
-
     // TODO 全局响应处理
     if (success) {
       return data
     } else {
-      ElMessage.error(message)
+      _showError(message)
       return Promise.reject(new Error(message))
     }
     // TODO token过期状态
-
     // return response // 拦截处理响应结果，直接返回需要的数据
   },
   (error) => {
     // 关闭loading加载
     loading.close()
-
-    ElMessage.error(error.message)
-
+    // 响应失败进行信息提示
+    _showError(error.message)
     return Promise.reject(error)
   }
 )
 
+// 响应提示信息
+const _showError = (message) => {
+  const info = message || '发生未知错误'
+  ElMessage.error(info)
+}
 // 统一传参处理
 const request = (options) => {
   if (options.method.toLowerCase() === 'get') {

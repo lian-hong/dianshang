@@ -34,11 +34,7 @@
           </el-icon>
         </span>
       </el-form-item>
-      <el-button
-        style="position: relative; z-index: 9999"
-        class="login-button"
-        type="primary"
-        @click="handleLoginSubmit"
+      <el-button class="login-button" type="primary" @click="handleLoginSubmit"
         >登录</el-button
       >
     </el-form>
@@ -50,9 +46,11 @@ import { reactive, ref, computed } from 'vue'
 import { validatePassword } from './rule'
 import { useStore } from 'vuex'
 import md5 from 'md5'
+import { useRouter } from 'vue-router'
 import util from '../../utils/util'
 
 const store = useStore()
+const router = useRouter()
 
 const inputType = ref('password')
 const LoginForm = ref()
@@ -95,9 +93,8 @@ const handleLoginSubmit = async () => {
     if (valid) {
       const newLoginForm = util.deepCopy(loginForm)
       newLoginForm.password = md5(newLoginForm.password)
-      // const response = await UserApi.login(newLoginForm)
-      // console.log(response)
-      store.dispatch('user/login', newLoginForm)
+      const response = await store.dispatch('user/login', newLoginForm)
+      if (response.token) router.push('/')
     }
   })
 }
