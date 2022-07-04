@@ -1,9 +1,8 @@
 /**
- * 监测数据类型方法
+ * 检测数据类型方法
  * @param {*} data
  * @returns
  */
-
 const checkDataType = (data) => {
   const dataType = Object.prototype.toString.call(data)
   const dataTypeOptions = {

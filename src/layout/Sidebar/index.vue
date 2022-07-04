@@ -1,7 +1,19 @@
 <template>
-  <div class="">
-    <p v-for="(item, index) in 1000" :key="index">{{ item }}</p>
+  <div>
+    <h1 class="sidebar-title">usian-admin</h1>
+    <sidebar-menu></sidebar-menu>
   </div>
 </template>
-<script setup></script>
-<style lang="scss" scoped></style>
+
+<script setup>
+import SidebarMenu from './SidebarMenu'
+</script>
+
+<style lang="scss" scoped>
+.sidebar-title {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 22px;
+  color: #fff;
+}
+</style>

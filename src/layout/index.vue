@@ -1,18 +1,21 @@
 <template>
   <div class="app-wrapper">
-    <Sidebar class="sidebar-container"></Sidebar>
+    <sidebar class="sidebar-container"></sidebar>
     <div class="main-container">
-      <div class="fiexed-header">
-        <Navbar></Navbar>
+      <div class="fixed-header">
+        <navbar></navbar>
+        <tags-view></tags-view>
       </div>
       <app-main></app-main>
     </div>
   </div>
 </template>
+
 <script setup>
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 import AppMain from './AppMain'
+import TagsView from '../components/TagsView'
 </script>
 
 <style lang="scss" scoped>
@@ -30,15 +33,17 @@ import AppMain from './AppMain'
     left: 0;
     top: 0;
     bottom: 0;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE 10+ */
+    scrollbar-width: none; /* Firefox */
   }
+
   .main-container {
     width: calc(100% - 210px);
     height: 100%;
     margin-left: 210px;
     position: relative;
-    .fiexed-headed {
+
+    .fixed-header {
       position: fixed;
       top: 0;
       right: 0;
@@ -48,6 +53,6 @@ import AppMain from './AppMain'
   }
 }
 ::-webkit-scrollbar {
-  display: none;
+  display: none; /* Chrome Safari */
 }
 </style>

@@ -42,12 +42,13 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
-import { validatePassword } from './rule'
-import { useStore } from 'vuex'
-import md5 from 'md5'
-import { useRouter } from 'vue-router'
 import util from '../../utils/util'
+import { reactive, ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import { validatePassword } from './rule'
+import { setTimeStamp } from '../../utils/auth'
+import md5 from 'md5'
 
 const store = useStore()
 const router = useRouter()
@@ -77,9 +78,6 @@ const loginRules = reactive({
   ]
 })
 
-/**
- *
- */
 const passwordIconStatus = computed(() => {
   return inputType.value === 'password' ? 'eye' : 'eye-open'
 })
@@ -93,7 +91,9 @@ const handleLoginSubmit = async () => {
     if (valid) {
       const newLoginForm = util.deepCopy(loginForm)
       newLoginForm.password = md5(newLoginForm.password)
+
       const response = await store.dispatch('user/login', newLoginForm)
+      setTimeStamp()
       if (response.token) router.push('/')
     }
   })

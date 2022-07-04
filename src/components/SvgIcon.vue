@@ -34,7 +34,6 @@ const styleExternalIcon = computed(() => {
 })
 
 const isExternal = computed(() => {
-  // console.log(external(props.icon))
   return external(props.icon)
 })
 
@@ -50,6 +49,8 @@ const iconName = computed(() => {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+  /* mask : url(https://res.lgdsunday.club/user.svg) no-repeat 50% 50%;
+  -webkit-mask: url(https://res.lgdsunday.club/user.svg) no-repeat 50% 50%; */
 }
 .svg-external-icon {
   background-color: currentColor;
